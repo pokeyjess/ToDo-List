@@ -2,9 +2,27 @@ import React, { Component } from "react";
 import "./index.css";
 import todosList from "./todos.json";
 
+//fix first two errors in source code
+
 class App extends Component {
   state = {
     todos: todosList
+  };
+  handleCreateTodo = event => {
+    console.log(event.target.value);
+
+    if (event.key === "Enter") {
+      const newTodo = {
+        userId: 1,
+        id: Math.floor(Math.random() * 10000000),
+        title: event.target.value,
+        completed: false
+      };
+      const newTodoList = this.state.todos.slice();
+      newTodoList.push(newTodo);
+      this.setState({ todos: newTodoList });
+      event.target.value = "";
+    }
   };
   render() {
     return (
@@ -15,6 +33,7 @@ class App extends Component {
             className="new-todo"
             placeholder="What needs to be done?"
             autofocus
+            onKeyDown={this.handleCreateTodo}
           />
         </header>
         <TodoList todos={this.state.todos} />
