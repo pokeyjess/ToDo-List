@@ -2,15 +2,42 @@ import React, { Component } from "react";
 import "./index.css";
 import todosList from "./todos.json";
 
-//fix first two errors in source code
-
 class App extends Component {
   state = {
     todos: todosList
   };
-  handleCreateTodo = event => {
-    console.log(event.target.value);
+  handleClearCompletedTodos = event => {
+    const newTodoList = this.state.todos.filter(todo => {
+      if (todo.completed === true) {
+        return false;
+      }
+      return true;
+    });
+    this.setState({ todos: newTodoList });
+  };
 
+  handleDeleteTodo = (event, todoIdToDelete) => {
+    const newTodoList = this.state.todos.filter(todo => {
+      if (todo.id === todoIdToDelete) {
+        return false;
+      }
+      return true;
+    });
+    this.setState({ todos: newTodoList });
+  };
+
+  handleToggleComplete = (event, todoIdToToggle) => {
+    const newTodos = this.state.todos.slice();
+    const newnewTodos = newTodos.map(todo => {
+      if (todo.id === todoIdToToggle) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+    this.setState({ todos: newnewTodos });
+  };
+
+  handleCreateTodo = event => {
     if (event.key === "Enter") {
       const newTodo = {
         userId: 1,
@@ -32,16 +59,26 @@ class App extends Component {
           <input
             className="new-todo"
             placeholder="What needs to be done?"
-            autofocus
+            autoFocus
             onKeyDown={this.handleCreateTodo}
           />
         </header>
-        <TodoList todos={this.state.todos} />
+        <TodoList
+          todos={this.state.todos}
+          handleToggleComplete={this.handleToggleComplete}
+          handleDeleteTodo={this.handleDeleteTodo}
+          //move first line to last?
+        />
         <footer className="footer">
           <span className="todo-count">
             <strong>0</strong> item(s) left
           </span>
-          <button className="clear-completed">Clear completed</button>
+          <button
+            onClick={this.handleClearCompletedTodos}
+            className="clear-completed"
+          >
+            Clear completed
+          </button>
         </footer>
       </section>
     );
@@ -57,9 +94,12 @@ class TodoItem extends Component {
             className="toggle"
             type="checkbox"
             checked={this.props.completed}
+            onChange={event =>
+              this.props.handleToggleComplete(event, this.props.id)
+            }
           />
           <label>{this.props.title}</label>
-          <button className="destroy" />
+          <button className="destroy" onClick={this.props.handleDeleteTodo} />
         </div>
       </li>
     );
@@ -72,7 +112,16 @@ class TodoList extends Component {
       <section className="main">
         <ul className="todo-list">
           {this.props.todos.map(todo => (
-            <TodoItem title={todo.title} completed={todo.completed} />
+            <TodoItem
+              key={todo.id}
+              handleDeleteTodo={event =>
+                this.props.handleDeleteTodo(event, todo.id)
+              }
+              title={todo.title}
+              completed={todo.completed}
+              id={todo.id}
+              handleToggleComplete={this.props.handleToggleComplete}
+            />
           ))}
         </ul>
       </section>
