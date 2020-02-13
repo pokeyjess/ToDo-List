@@ -1,9 +1,8 @@
 import React, { Component } from "react";
+import TodoList from "./Todolist";
 import "./index.css";
 import todosList from "./todos.json";
 import { Route, NavLink } from "react-router-dom";
-
-//react cards -- put components into separate files
 
 class App extends Component {
   state = {
@@ -91,7 +90,16 @@ class App extends Component {
         <footer className="footer">
           {/* <!-- This should be `0 items left` by default --> */}
           <span className="todo-count">
-            <strong>What to put here?</strong> item(s) left
+            <strong>
+              0
+              {/*
+                this.state.todos.filter(todo => {
+                  ---need to return true/false. 
+                  see how used other filters
+              }
+              ).length */}
+            </strong>{" "}
+            item(s) left
           </span>
           <ul className="filters">
             <li>
@@ -110,52 +118,13 @@ class App extends Component {
               </NavLink>
             </li>
           </ul>
-          <button className="clear-completed">Clear completed</button>
+          <button
+            onClick={this.handleClearCompletedTodos}
+            className="clear-completed"
+          >
+            Clear completed
+          </button>
         </footer>
-      </section>
-    );
-  }
-}
-
-class TodoItem extends Component {
-  render() {
-    return (
-      <li className={this.props.completed ? "completed" : ""}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={this.props.completed}
-            onChange={event =>
-              this.props.handleToggleComplete(event, this.props.id)
-            }
-          />
-          <label>{this.props.title}</label>
-          <button className="destroy" onClick={this.props.handleDeleteTodo} />
-        </div>
-      </li>
-    );
-  }
-}
-
-class TodoList extends Component {
-  render() {
-    return (
-      <section className="main">
-        <ul className="todo-list">
-          {this.props.todos.map(todo => (
-            <TodoItem
-              key={todo.id}
-              handleDeleteTodo={event =>
-                this.props.handleDeleteTodo(event, todo.id)
-              }
-              title={todo.title}
-              completed={todo.completed}
-              id={todo.id}
-              handleToggleComplete={this.props.handleToggleComplete}
-            />
-          ))}
-        </ul>
       </section>
     );
   }
