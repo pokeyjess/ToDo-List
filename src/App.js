@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "./index.css";
 import todosList from "./todos.json";
+import { Route, NavLink } from "react-router-dom";
+
+//react cards -- put components into separate files
 
 class App extends Component {
   state = {
@@ -63,22 +66,51 @@ class App extends Component {
             onKeyDown={this.handleCreateTodo}
           />
         </header>
-        <TodoList
-          todos={this.state.todos}
-          handleToggleComplete={this.handleToggleComplete}
-          handleDeleteTodo={this.handleDeleteTodo}
-          //move first line to last?
-        />
+        <Route exact path="/">
+          <TodoList
+            todos={this.state.todos}
+            handleToggleComplete={this.handleToggleComplete}
+            handleDeleteTodo={this.handleDeleteTodo}
+          />
+        </Route>
+        <Route exact path="/active">
+          <TodoList
+            todos={this.state.todos.filter(todo => todo.completed === false)}
+            handleToggleComplete={this.handleToggleComplete}
+            handleDeleteTodo={this.handleDeleteTodo}
+          />
+        </Route>
+        <Route exact path="/completed">
+          <TodoList
+            todos={this.state.todos.filter(todo => todo.completed === true)}
+            handleToggleComplete={this.handleToggleComplete}
+            handleDeleteTodo={this.handleDeleteTodo}
+          />
+        </Route>
+
         <footer className="footer">
+          {/* <!-- This should be `0 items left` by default --> */}
           <span className="todo-count">
-            <strong>0</strong> item(s) left
+            <strong>What to put here?</strong> item(s) left
           </span>
-          <button
-            onClick={this.handleClearCompletedTodos}
-            className="clear-completed"
-          >
-            Clear completed
-          </button>
+          <ul className="filters">
+            <li>
+              <NavLink exact activeClassName="selected" to="/">
+                All
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact activeClassName="selected" to="/active">
+                Active
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact activeClassName="selected" to="/completed">
+                Completed
+              </NavLink>
+            </li>
+          </ul>
+          <button className="clear-completed">Clear completed</button>
         </footer>
       </section>
     );
