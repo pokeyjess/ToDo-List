@@ -24,7 +24,7 @@ class App extends Component {
     return (
       <section className="todoapp">
         <header className="header">
-          <h1>todos</h1>
+          <h1>My To Do List</h1>
           <input
             className="new-todo"
             placeholder="What needs to be done?"

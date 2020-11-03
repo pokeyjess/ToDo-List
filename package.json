@@ -2,7 +2,7 @@
   "name": "todos",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pokeyjess.gitlab.io/assessment---todo-app-part-2",
+  "homepage": "https://pokeyjess.github.io/ToDo-List",
   "dependencies": {
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
