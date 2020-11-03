@@ -12,7 +12,7 @@ The application allows you to create and manage a list of "to do" items. Add new
 
 ## Instructions
 
-To run this application on your own machine, fork and clone the repo. You'll want to run "npm install," and "npm start" to fire up your local server. This application can be easily deployed -- I have my own personal version hosted for free on Heroku.
+To run this application on your own machine, fork and clone the repo. You'll want to run "npm install," and "npm start" to fire up your local server.
 
 Enjoy!
 

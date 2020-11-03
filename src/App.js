@@ -46,6 +46,7 @@ class App extends Component {
           />
         </Route>
 
+        
         <footer className="footer">
           {/* <!-- This should be `0 items left` by default --> */}
           <span className="todo-count">
